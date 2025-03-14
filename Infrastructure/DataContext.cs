@@ -1,4 +1,4 @@
-﻿using DatingApp.Domain;
+﻿using DatingApp.Domain.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Infrastructure

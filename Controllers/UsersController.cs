@@ -1,20 +1,21 @@
-﻿using DatingApp.Domain;
+﻿using DatingApp.Domain.Dto;
 using DatingApp.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersControlller(DataContext dbContext) : ControllerBase
+    public class UsersController(DataContext dbContext) : BaseApiController
     {
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersAsync()
         {
             return Ok(await dbContext.Users.ToListAsync());
         }
 
+        [Authorize]
         [HttpGet]
         [Route("{id:int}")]
         public async Task<ActionResult<User>> GetUserAsync(int id)
