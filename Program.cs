@@ -1,4 +1,5 @@
 using DatingApp.Infrastructure;
+using DatingApp.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,8 @@ static void AddServices(WebApplicationBuilder builder)
 
 static void UseMiddlewares(WebApplication app)
 {
+    app.UseMiddleware<ExceptionMiddleware>();
+
     app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200/"));
 
     app.UseHttpsRedirection();
@@ -38,4 +41,5 @@ static void UseMiddlewares(WebApplication app)
     app.UseAuthorization();
 
     app.MapControllers();
+
 }
