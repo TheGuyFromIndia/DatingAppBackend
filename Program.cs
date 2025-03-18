@@ -1,5 +1,7 @@
+using DatingApp.Data;
 using DatingApp.Infrastructure;
 using DatingApp.Middleware;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ if (app.Environment.IsDevelopment())
 }
 
 UseMiddlewares(app);
+
+await RunMigrations(app);
 
 app.Run();
 
@@ -42,4 +46,22 @@ static void UseMiddlewares(WebApplication app)
 
     app.MapControllers();
 
+}
+
+static async Task RunMigrations(WebApplication app)
+{
+    var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<DataContext>();
+        await context.Database.MigrateAsync();
+        await Seed.SeedUsers(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger>();
+        logger.LogError(ex, "An error occured");
+
+    }
 }

@@ -10,28 +10,28 @@ namespace DatingApp.Controllers
 {
     public class AccountController(DataContext dbContext, ITokenService tokenService) : BaseApiController
     {
-        [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(AddUser addUser)
-        {
-            if (!await ValidateUser(addUser.UserName))
-            {
-                return BadRequest($"User with username {addUser.UserName} already exists");
-            }
+        //[HttpPost("register")]
+        //public async Task<ActionResult<User>> Register(AddUser addUser)
+        //{
+        //    if (!await ValidateUser(addUser.UserName))
+        //    {
+        //        return BadRequest($"User with username {addUser.UserName} already exists");
+        //    }
 
-            using var hmac = new HMACSHA512();
+        //    using var hmac = new HMACSHA512();
 
-            var user = new User
-            {
-                Name = addUser.UserName.ToLower(),
-                Hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(addUser.Password)),
-                Salt = hmac.Key,
-            };
+        //    var user = new User
+        //    {
+        //        Name = addUser.UserName.ToLower(),
+        //        Hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(addUser.Password)),
+        //        Salt = hmac.Key,
+        //    };
 
-            dbContext.Users.Add(user);
-            await dbContext.SaveChangesAsync();
+        //    dbContext.Users.Add(user);
+        //    await dbContext.SaveChangesAsync();
 
-            return Ok(user);
-        }
+        //    return Ok(user);
+        //}
 
         [HttpPost("login")]
         public async Task<ActionResult<AuthUser>> LoginAsync(Login login)
