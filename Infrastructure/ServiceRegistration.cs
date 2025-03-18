@@ -1,4 +1,6 @@
-﻿using DatingApp.Services;
+﻿using DatingApp.Data;
+using DatingApp.Infrastructure.Interfaces;
+using DatingApp.Services;
 
 namespace DatingApp.Infrastructure
 {
@@ -8,6 +10,7 @@ namespace DatingApp.Infrastructure
         {
 
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }

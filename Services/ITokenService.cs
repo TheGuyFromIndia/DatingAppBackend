@@ -1,4 +1,4 @@
-﻿using DatingApp.Domain.Dto;
+﻿using DatingApp.Domain.Entity;
 
 namespace DatingApp.Services
 {

@@ -1,4 +1,4 @@
-using DatingApp.Domain.Dto;
+using DatingApp.Domain.Entity;
 using DatingApp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -12,7 +12,7 @@ public class Seed
     {
         if (await context.Users.AnyAsync()) return;
 
-        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "UserSeedData.Json");
+        string filePath = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "Data"), "UserSeedData.Json");
         var userData = await File.ReadAllTextAsync(filePath);
 
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

@@ -1,4 +1,4 @@
-﻿using DatingApp.Domain.Dto;
+﻿using DatingApp.Domain.Entity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

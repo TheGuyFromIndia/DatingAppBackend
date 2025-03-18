@@ -1,6 +1,6 @@
 [
   {
-    "UserName": "Meagan",
+    "Name": "Meagan",
     "Gender": "female",
     "DateOfBirth": "1970-05-07",
     "KnownAs": "Meagan",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "UserName": "Thelma",
+    "Name": "Thelma",
     "Gender": "female",
     "DateOfBirth": "1991-08-22",
     "KnownAs": "Thelma",
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "UserName": "Ruby",
+    "Name": "Ruby",
     "Gender": "female",
     "DateOfBirth": "1969-09-15",
     "KnownAs": "Ruby",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "UserName": "Kirsten",
+    "Name": "Kirsten",
     "Gender": "female",
     "DateOfBirth": "1962-04-13",
     "KnownAs": "Kirsten",
@@ -76,7 +76,7 @@
     ]
   },
   {
-    "UserName": "Marguerite",
+    "Name": "Marguerite",
     "Gender": "female",
     "DateOfBirth": "1966-02-09",
     "KnownAs": "Marguerite",
@@ -95,7 +95,7 @@
     ]
   },
   {
-    "UserName": "Hogan",
+    "Name": "Hogan",
     "Gender": "male",
     "DateOfBirth": "1965-07-30",
     "KnownAs": "Hogan",
@@ -114,7 +114,7 @@
     ]
   },
   {
-    "UserName": "Reid",
+    "Name": "Reid",
     "Gender": "male",
     "DateOfBirth": "1954-11-10",
     "KnownAs": "Reid",
@@ -133,7 +133,7 @@
     ]
   },
   {
-    "UserName": "Gentry",
+    "Name": "Gentry",
     "Gender": "male",
     "DateOfBirth": "1957-08-19",
     "KnownAs": "Gentry",
@@ -152,7 +152,7 @@
     ]
   },
   {
-    "UserName": "Barlow",
+    "Name": "Barlow",
     "Gender": "male",
     "DateOfBirth": "1984-07-31",
     "KnownAs": "Barlow",
@@ -171,7 +171,7 @@
     ]
   },
   {
-    "UserName": "Koch",
+    "Name": "Koch",
     "Gender": "male",
     "DateOfBirth": "1981-01-23",
     "KnownAs": "Koch",
