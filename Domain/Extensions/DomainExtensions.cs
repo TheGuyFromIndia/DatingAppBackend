@@ -22,7 +22,7 @@ namespace DatingApp.Domain.Extensions
                 City = user.City,
                 Country = user.Country,
                 Photos = user.Photos.Select(p => p.ToPhoto()).ToList(),
-                PhotoUrl = user.Photos.FirstOrDefault()?.Url // Assuming Photo has a Url property
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url // Assuming Photo has a Url property
             };
         }
 
@@ -31,6 +31,16 @@ namespace DatingApp.Domain.Extensions
             return new Dto.Photo
             {
                 Id = photo.Id,
+                Url = photo.Url,
+                IsMain = photo.IsMain
+            };
+        }
+
+        public static Entity.Photo ToPhoto(this Dto.Photo photo)
+        {
+            return new Entity.Photo
+            {
+                PublicId = photo.PublicId,
                 Url = photo.Url,
                 IsMain = photo.IsMain
             };

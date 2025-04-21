@@ -24,7 +24,7 @@ app.Run();
 static void AddServices(WebApplicationBuilder builder)
 {
     builder.Services.AddControllers();
-    builder.Services.AddService();
+    builder.Services.AddService(builder.Configuration);
     builder.Services.RegisterDatabase(builder.Configuration);
     builder.Services.AddCors();
     builder.Services.AddAuthentification(builder.Configuration);

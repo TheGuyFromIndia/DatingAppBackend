@@ -36,7 +36,7 @@ namespace DatingApp.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<AuthUser>> LoginAsync(Login login)
         {
-            var userEntity = await dbContext.Users.FirstOrDefaultAsync(x => x.Name == login.UserName.ToLower());
+            var userEntity = await dbContext.Users.Include(x=>x.Photos).FirstOrDefaultAsync(x => x.Name == login.UserName.ToLower());
 
             if (userEntity == null)
             {
@@ -54,7 +54,12 @@ namespace DatingApp.Controllers
                 }
             }
 
-            return Ok(new AuthUser { UserName = userEntity.Name, Token = tokenService.CreateToken(userEntity) });
+            return Ok(new AuthUser
+            {
+                UserName = userEntity.Name,
+                Token = tokenService.CreateToken(userEntity),
+                PhotoUrl = userEntity.Photos.FirstOrDefault(x => x.IsMain)?.Url
+            });
         }
 
         private async Task<bool> ValidateUser(string username)
