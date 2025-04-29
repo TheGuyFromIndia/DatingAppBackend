@@ -1,4 +1,5 @@
 ﻿using DatingApp.Domain.Dto;
+using DatingApp.Domain.Entity;
 using DatingApp.Infrastructure;
 using DatingApp.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,31 +11,43 @@ namespace DatingApp.Controllers
 {
     public class AccountController(DataContext dbContext, ITokenService tokenService) : BaseApiController
     {
-        //[HttpPost("register")]
-        //public async Task<ActionResult<User>> Register(AddUser addUser)
-        //{
-        //    if (!await ValidateUser(addUser.UserName))
-        //    {
-        //        return BadRequest($"User with username {addUser.UserName} already exists");
-        //    }
+        [HttpPost("register")]
+        public async Task<ActionResult<AuthUserDto>> Register(RegisterUserDto registerUser)
+        {
+            if (!await ValidateUser(registerUser.UserName))
+            {
+                return BadRequest($"User with username {registerUser.UserName} already exists");
+            }
 
-        //    using var hmac = new HMACSHA512();
+            using var hmac = new HMACSHA512();
 
-        //    var user = new User
-        //    {
-        //        Name = addUser.UserName.ToLower(),
-        //        Hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(addUser.Password)),
-        //        Salt = hmac.Key,
-        //    };
+            var x = DateTime.Parse(registerUser.DateOfBirth).Date.Date;
 
-        //    dbContext.Users.Add(user);
-        //    await dbContext.SaveChangesAsync();
+            var user = new Domain.Entity.User
+            {
+                Name = registerUser.UserName.ToLower(),
+                Hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUser.Password)),
+                Salt = hmac.Key,
+                KnownAs = registerUser.KnownAs,
+                Gender = registerUser.Gender,
+                City = registerUser.City,
+                Country = registerUser.Country,
+                DateOfBirth = DateOnly.Parse(registerUser.DateOfBirth),
+            };
 
-        //    return Ok(user);
-        //}
+            dbContext.Users.Add(user);
+            await dbContext.SaveChangesAsync();
+
+            return Ok(new AuthUserDto
+            {
+                UserName = user.Name,
+                Token = tokenService.CreateToken(user),
+                PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url!
+            });
+        }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AuthUser>> LoginAsync(Login login)
+        public async Task<ActionResult<AuthUserDto>> LoginAsync(Domain.Dto.LoginUserDto login)
         {
             var userEntity = await dbContext.Users.Include(x=>x.Photos).FirstOrDefaultAsync(x => x.Name == login.UserName.ToLower());
 
@@ -54,7 +67,7 @@ namespace DatingApp.Controllers
                 }
             }
 
-            return Ok(new AuthUser
+            return Ok(new AuthUserDto
             {
                 UserName = userEntity.Name,
                 Token = tokenService.CreateToken(userEntity),

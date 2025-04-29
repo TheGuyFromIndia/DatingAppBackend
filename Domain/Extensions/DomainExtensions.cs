@@ -5,9 +5,9 @@ namespace DatingApp.Domain.Extensions
 {
     public static class DomainExtensions
     {
-        public static Member ToMember(this User user)
+        public static MemberDto ToMember(this Entity.User user)
         {
-            return new Member
+            return new MemberDto
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -26,9 +26,9 @@ namespace DatingApp.Domain.Extensions
             };
         }
 
-        public static Dto.Photo ToPhoto(this Entity.Photo photo)
+        public static Dto.PhotoDto ToPhoto(this Entity.Photo photo)
         {
-            return new Dto.Photo
+            return new Dto.PhotoDto
             {
                 Id = photo.Id,
                 Url = photo.Url,
@@ -36,7 +36,7 @@ namespace DatingApp.Domain.Extensions
             };
         }
 
-        public static Entity.Photo ToPhoto(this Dto.Photo photo)
+        public static Entity.Photo ToPhoto(this Dto.PhotoDto photo)
         {
             return new Entity.Photo
             {

@@ -1,6 +1,6 @@
 ﻿namespace DatingApp.Domain.Dto
 {
-    public class MemberUpdate
+    public class MemberUpdateDto
     {
         public string? Introduction { get; set; }
         public string? LookingFor { get; set; }

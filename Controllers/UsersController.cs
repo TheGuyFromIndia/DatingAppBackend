@@ -13,7 +13,7 @@ namespace DatingApp.Controllers
     {
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Member>>> GetUsersAsync()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsersAsync()
         {
             return Ok((await userRepository.GetUsersAsync()).Select(x => x.ToMember()));
         }
@@ -33,7 +33,7 @@ namespace DatingApp.Controllers
         //}
 
         [HttpGet("{username}", Name = "GetUserByUsername")]
-        public async Task<ActionResult<Member>> GetUserAsync(string username)
+        public async Task<ActionResult<MemberDto>> GetUserAsync(string username)
         {
             var user = await userRepository.GetUserByUserNameAsync(username);
 
@@ -46,7 +46,7 @@ namespace DatingApp.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateUserAsync(MemberUpdate memberUpdate)
+        public async Task<ActionResult> UpdateUserAsync(MemberUpdateDto memberUpdate)
         {
             var user = await GetUser();
 
@@ -69,7 +69,7 @@ namespace DatingApp.Controllers
         
 
         [HttpPost("add-photo")]
-        public async Task<ActionResult<Domain.Dto.Photo>> UploadPhotoAsync(IFormFile file)
+        public async Task<ActionResult<Domain.Dto.PhotoDto>> UploadPhotoAsync(IFormFile file)
         {
             var user = await GetUser();
 
@@ -79,15 +79,22 @@ namespace DatingApp.Controllers
 
                 if (result.Error == null)
                 {
-                    var photo = new Domain.Dto.Photo
+                    var photo = new Domain.Dto.PhotoDto
                     {
                         PublicId = result.PublicId,
                         Url = result.SecureUrl.AbsoluteUri,
                     };
 
+                    if (user.Photos.Count == 0)
+                    {
+                        photo.IsMain = true;
+                    }
+
                     user.Photos.Add(photo.ToPhoto());
+
                     await userRepository.SaveAllAsync();
-                        return CreatedAtRoute("GetUserByUsername", new { username = user.Name }, photo.ToPhoto());
+                    var photoEntity = (await userRepository.GetByIdAsync(user.Id)).Photos.FirstOrDefault(x => x.PublicId == photo.PublicId); 
+                    return CreatedAtRoute("GetUserByUsername", new { username = user.Name }, photoEntity!.ToPhoto());
                 }
 
                 return BadRequest(result.Error.Message);
@@ -113,6 +120,7 @@ namespace DatingApp.Controllers
                     {
                         oldMainPhoto.IsMain = false;
                     }
+
                     await userRepository.SaveAllAsync();
 
                     return NoContent();
@@ -156,7 +164,7 @@ namespace DatingApp.Controllers
         }
 
         #region private function
-        private async Task<User> GetUser()
+        private async Task<Domain.Entity.User> GetUser()
         {
             var userName = User.GetUserName();
 
@@ -164,7 +172,7 @@ namespace DatingApp.Controllers
             return user;
         }
 
-        private bool CheckIfUserValid(User user)
+        private bool CheckIfUserValid(Domain.Entity.User user)
         {
             return user != null;
         }

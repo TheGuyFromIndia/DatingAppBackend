@@ -1,6 +1,6 @@
 ﻿namespace DatingApp.Domain.Dto
 {
-    public class Member
+    public class MemberDto
     {
         public int Id { get; set; }
         public required string Name { get; set; }
@@ -16,6 +16,6 @@
         public string? LookingFor { get; set; }
         public required string City { get; set; }
         public required string Country { get; set; }
-        public List<Photo> Photos { get; set; } = new List<Photo> { };
+        public List<PhotoDto> Photos { get; set; } = new List<PhotoDto> { };
     }
 }

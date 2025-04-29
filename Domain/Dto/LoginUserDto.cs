@@ -2,7 +2,7 @@
 
 namespace DatingApp.Domain.Dto
 {
-    public class Login
+    public class LoginUserDto
     {
         [Required]
         public required string UserName { get; set; } = string.Empty;
